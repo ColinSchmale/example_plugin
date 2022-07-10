@@ -4,11 +4,17 @@ import UIKit
 public class SwiftExamplePlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "example_plugin", binaryMessenger: registrar.messenger())
-    let instance = SwiftExamplePlugin()
-    registrar.addMethodCallDelegate(instance, channel: channel)
+    let channel2 = FlutterMethodChannel(name: "example_plugin2", binaryMessenger: registrar.messenger())
+    
+    channel.setMethodCallHandler(firstMethodCallHandler)
+    channel2.setMethodCallHandler(secondMethodCallHandler)
   }
 
-  public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+  static public func firstMethodCallHandler(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     result("iOS " + UIDevice.current.systemVersion)
+  }
+    
+  static public func secondMethodCallHandler(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+    result("Hello World!")
   }
 }
